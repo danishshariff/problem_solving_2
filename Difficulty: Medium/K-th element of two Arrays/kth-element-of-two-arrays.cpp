@@ -4,48 +4,55 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
-  public:
-   
+public:
+    int kthElement(vector<int>& a, vector<int>& b, int k) {
+        int n = a.size();
+        int m = b.size();
+        int i = 0, j = 0, count = 0;
+        int result = -1;
 
-    int kthElement(int k, vector<int>& nums1, vector<int>& nums2) {
-        int n1 = nums1.size();
-        int n2 = nums2.size();
-
-        // Ensure nums1 is the smaller array to minimize partition search space
-        if (n1 > n2) return kthElement(k, nums2, nums1);
-        
-        // Validate k
-        if (k < 1 || k > n1 + n2) {
-            cerr << "Invalid k: out of bounds" << endl;
-            return -1;
-        }
-        
-        int low = max(0, k - n2);
-        int high = min(k, n1);
-
-        while (low <= high) {
-            int mid1 = (low + high) / 2;
-            int mid2 = k - mid1;
-
-            int l1 = (mid1 == 0) ? INT_MIN : nums1[mid1 - 1];
-            int l2 = (mid2 == 0) ? INT_MIN : nums2[mid2 - 1];
-            int r1 = (mid1 == n1) ? INT_MAX : nums1[mid1];
-            int r2 = (mid2 == n2) ? INT_MAX : nums2[mid2];
-
-            if (l1 <= r2 && l2 <= r1) {
-                return max(l1, l2);
-            } else if (l1 > r2) {
-                high = mid1 - 1;
+        // Use two pointers to merge arrays up to the k-th element
+        while (i < n && j < m) {
+            if (a[i] < b[j]) {
+                count++;
+                if (count == k) {
+                    result = a[i];
+                    break;
+                }
+                i++;
             } else {
-                low = mid1 + 1;
+                count++;
+                if (count == k) {
+                    result = b[j];
+                    break;
+                }
+                j++;
             }
         }
 
-        return -1;  // Return -1 if no valid k-th element is found
+        // If one array is exhausted, continue with the other array
+        while (i < n) {
+            count++;
+            if (count == k) {
+                result = a[i];
+                break;
+            }
+            i++;
+        }
 
+        while (j < m) {
+            count++;
+            if (count == k) {
+                result = b[j];
+                break;
+            }
+            j++;
+        }
+
+        return result;
     }
-
 };
 
 //{ Driver Code Starts.
@@ -61,22 +68,22 @@ int main() {
         cin.ignore();
         string input;
         int num;
-        vector<int> arr1, arr2;
+        vector<int> a, b;
 
         getline(cin, input);
         stringstream s2(input);
         while (s2 >> num) {
-            arr1.push_back(num);
+            a.push_back(num);
         }
 
         getline(cin, input);
         stringstream s3(input);
         while (s3 >> num) {
-            arr2.push_back(num);
+            b.push_back(num);
         }
 
         Solution ob;
-        cout << ob.kthElement(k, arr1, arr2) << endl << "~\n";
+        cout << ob.kthElement(a, b, k) << endl << "~\n";
     }
     return 0;
 }
