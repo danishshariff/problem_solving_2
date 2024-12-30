@@ -7,30 +7,35 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-     int linearsearch(vector<int>& a, int num){
-         for(int i=0;i<a.size();i++){
-             if(a[i]==num){
-                 return true;
-                 
-             }
-         }
-         return false;
-     }
+
     // Function to return length of longest subsequence of consecutive integers.
-    int findLongestConseqSubseq(vector<int>& arr) {
-        // Your code here
-        int longest=1;
-        for(int i=0;i<arr.size();i++){
-            int x=arr[i];
-            int cnt=1;
-            while(linearsearch(arr,x+1)==true){
-                x+=1;
-                cnt+=1;
+    int longestConsecutive(vector<int>& arr) {
+      if (arr.empty()) return 0; // Handle edge case: empty array
+
+        // Sort the array
+        sort(arr.begin(), arr.end());
+
+        int longest = 1; // At least one element in a sequence
+        int currentStreak = 1;
+
+        for (int i = 1; i < arr.size(); i++) {
+            if (arr[i] == arr[i - 1]) {
+                // Skip duplicates
+                continue;
+            } else if (arr[i] == arr[i - 1] + 1) {
+                // If consecutive, increment the current streak
+                currentStreak++;
+            } else {
+                // Reset streak when the sequence breaks
+                longest = max(longest, currentStreak);
+                currentStreak = 1;
             }
-        longest=max(cnt,longest);
         }
-        
-    return longest;
+
+        // Final check for the last streak
+        longest = max(longest, currentStreak);
+
+        return longest;
     }
 };
 
@@ -52,7 +57,7 @@ int main() {
         }
 
         Solution ob;
-        int res = ob.findLongestConseqSubseq(arr);
+        int res = ob.longestConsecutive(arr);
 
         cout << res << endl << "~" << endl;
     }
