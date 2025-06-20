@@ -1,9 +1,3 @@
-//{ Driver Code Starts
-#include <bits/stdc++.h>
-using namespace std;
-
-
-// } Driver Code Ends
 
 
 class Solution {
@@ -13,66 +7,15 @@ class Solution {
         // Code here
         vector<int> ans;
         int n=arr.size();
-  
-  for (int i = 0; i < n; i++) {
-    bool leader = true;
-
-    //Checking whether arr[i] is greater than all 
-    //the elements in its right side
-    for (int j = i + 1; j < n; j++)
-      if (arr[j] > arr[i]) {
-          
-        // If any element found is greater than current leader
-        // curr element is not the leader.
-        leader = false;
-        break;
-      }
-
-    // Push all the leaders in ans array.
-    if (leader)
-    ans.push_back(arr[i]);
-
-  }
-  
-  return ans;
-    }
-};
-
-//{ Driver Code Starts.
-
-int main() {
-    int t; // Number of test cases
-    cin >> t;
-    cin.ignore(); // Ignore the newline after the integer input
-    while (t--) {
-        vector<int> a;
-        string input;
-
-        // Input format: first number n followed by the array elements
-        getline(cin, input);
-        stringstream ss(input);
-        int num;
-        while (ss >> num)
-            a.push_back(num); // Read the array elements from input string
-
-        Solution obj;
-        vector<int> result = obj.leaders(a);
-
-        // Print the result in the required format
-        if (result.empty()) {
-            cout << "[]"; // Print empty brackets if no leaders are found
-        } else {
-            for (int i = 0; i < result.size(); i++) {
-                if (i != 0)
-                    cout << " ";
-                cout << result[i];
+        int maxlast=arr[n-1];
+        ans.push_back(maxlast);
+        for(int i=n-2;i>=0;i--){
+            if(arr[i]>=maxlast){
+                maxlast=arr[i];
+                ans.push_back(arr[i]);
             }
         }
-        cout << endl;
-        cout << "~" << endl;
+        reverse(ans.begin(),ans.end());
+        return ans;
     }
-
-    return 0;
-}
-
-// } Driver Code Ends
+};
