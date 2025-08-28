@@ -2,17 +2,19 @@ class Solution {
   public:
     int getSecondLargest(vector<int> &arr) {
         // code here
-        int largest=arr[0];
-        int slarg=-1;
+        int lar=-1;
+        int slar=-1;
         for(int i=0;i<arr.size();i++){
-            if(arr[i]>largest){
-                slarg=largest;
-                largest=arr[i];
-            }
-            else if(arr[i]<largest && arr[i]>slarg){
-                slarg=arr[i];
+            if(arr[i]>lar){
+                slar=lar;
+                lar=arr[i];
             }
         }
-        return slarg;
+        for(int i=0;i<arr.size();i++){
+            if(arr[i]!=lar &&  arr[i]>slar){
+                slar=arr[i];
+            }
+        }
+        return slar;
     }
 };
